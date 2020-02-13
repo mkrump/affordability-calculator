@@ -1,0 +1,25 @@
+version: '3'
+services:
+    api:
+      build:
+        context: ./
+        dockerfile: ./deploy/api.dockerfile
+      ports:
+        - "5000:5000"
+      volumes:
+        - ./api:/api
+      environment:
+        - FLASK_ENV=development
+      command: python app.py
+    client:
+      image: affordability/client
+      build:
+        context: ./
+        dockerfile: ./deploy/client.dockerfile
+      volumes:
+        - ./client:/client
+      environment:
+        - NODE_ENV=development
+      ports:
+        - 3000:3000
+      command: yarn start

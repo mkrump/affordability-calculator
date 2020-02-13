@@ -1,0 +1,58 @@
+$color-not-affordable: royalblue;
+$opacity-not-affordable: .075;
+$color-affordable: royalblue;
+$opacity-affordable: 1;
+
+.not-affordable {
+  fill: $color-not-affordable;
+  stop-color: $color-not-affordable;
+  stop-opacity: $opacity-not-affordable;
+  opacity: $opacity-not-affordable;
+}
+
+.affordable {
+  fill: $color-affordable;
+  stop-color: $color-affordable;
+  stop-opacity: $opacity-affordable;
+  opacity: $opacity-affordable;
+}
+
+.axis {
+  font-size: 14px;
+}
+
+.axis-label {
+  text-anchor: middle;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.tooltip {
+  line-height: 1;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.tooltip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.tooltip:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
