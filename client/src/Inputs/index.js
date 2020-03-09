@@ -11,19 +11,22 @@ import * as PropTypes from "prop-types";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
+const defaultPropertyTax = 0.005;
+const defaultInsurance = 0.0033;
+const defaultPMI = 0.0075;
+
 class MortgageCalculator extends Component {
   initialize = () => {
     const homePrice = 418000;
     const downPayment = 10;
-    const loanAmount = Math.round(homePrice * ((100 - downPayment)/ 100));
 
     return {
       interestRate: 3.75,
       homePrice: homePrice,
       downpayment: 10,
-      propertyTaxes: Math.round(homePrice * 0.0064 / 12),
-      insurance: Math.round(homePrice * 0.0033 / 12),
-      pmi: Math.round(loanAmount * 0.0074 / 12),
+      propertyTaxes: Math.round((homePrice * defaultPropertyTax) / 12),
+      insurance: Math.round((homePrice * defaultInsurance) / 12),
+      pmi: Math.round(this.pmi(homePrice, downPayment)),
       dti: 28,
       loanTerm: 30,
       payment: 0,
@@ -78,8 +81,34 @@ class MortgageCalculator extends Component {
   };
 
   handleChange = prop => event => {
+    if (prop === "homePrice") {
+      const newHomePrice = event.target.value;
+      return this.setState({
+        propertyTaxes: Math.round((newHomePrice * defaultPropertyTax) / 12),
+        insurance: Math.round((newHomePrice * defaultInsurance) / 12),
+        pmi: Math.round(this.pmi(newHomePrice, this.state.downpayment)),
+        homePrice: newHomePrice
+      });
+    }
+    if (prop === "downpayment") {
+      const downpayment = event.target.value;
+      return this.setState({
+        pmi: Math.round(this.pmi(this.state.homePrice, downpayment)),
+        downpayment: downpayment
+      });
+    }
     this.setState({ [prop]: event.target.value });
   };
+
+  pmi(homePrice, downpayment) {
+    return downpayment < 20
+      ? (this.loanAmount(homePrice, downpayment) * defaultPMI) / 12
+      : 0;
+  }
+
+  loanAmount(homePrice, downpayment) {
+    return downpayment > 0 ? homePrice * (1 - downpayment / 100) : homePrice;
+  }
 
   render() {
     const { classes, onChangeCallback } = this.props;
