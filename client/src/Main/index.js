@@ -5,6 +5,7 @@ import Graph from "../Graph";
 import Inputs from "../Inputs";
 import SearchBox from "../SelectMSA";
 import styles from "./index.module.scss";
+import Grid from "@material-ui/core/Grid";
 
 class Main extends Component {
   render() {
@@ -34,28 +35,39 @@ class App extends Component {
 
   render() {
     return (
-      <div style={{ padding: "40px" }}>
-        <div className={styles.row}>
+      <Grid
+        container
+        spacing={1}
+        direction="row"
+        justify="center"
+        alignItems="center"
+      >
+        <Grid item xs={8}>
           <Text />
-        </div>
-        <div className={styles.row}>
+          <hr className={styles.divider} />
+        </Grid>
+        <Grid item xs={8}>
           <Inputs onChangeCallback={this.handleRequiredSalaryChange} />
-        </div>
-        <div className={styles.row}>
+          <hr className={styles.divider} />
+        </Grid>
+        <Grid item xs={8}>
           <SearchBox
             onChangecallback={this.handleMSAChange}
             msa={this.state.msa}
           />
-        </div>
-        <Graph msa={this.state.msa} threshold={this.state.salaryRequired} />
-      </div>
+          <hr className={styles.divider} />
+        </Grid>
+        <Grid item xs={8}>
+          <Graph msa={this.state.msa} threshold={this.state.salaryRequired} />
+        </Grid>
+      </Grid>
     );
   }
 }
 
 function Text() {
   return (
-    <div style={{ width: 800 }}>
+    <div>
       <h1>Affordability Calculator</h1>
       <p>
         Estimate the income required for a particular home by inputting the
@@ -102,4 +114,5 @@ function Text() {
     </div>
   );
 }
+
 export default Main;
