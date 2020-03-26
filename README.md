@@ -27,8 +27,10 @@ docker-compose up
 
 ### Deploy
 ```
+eval $(docker-machine env priced-out) # connect to instance
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+eval $(docker-machine env priced-out -u) 
 ```
 
 ### Demo
