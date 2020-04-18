@@ -1,6 +1,8 @@
-import requests
+import logging
+
 from flask import jsonify
 from flask_restful import Resource, abort
+from requests import Request, Session
 
 from resources.income_dist_formatter import format_response
 
@@ -32,7 +34,10 @@ class IncomeDist(Resource):
                        "for": f"metropolitan statistical area/micropolitan statistical area:{msa}",
                        "get": ",".join(census_variables),
                        }
-        response = requests.request("GET", url, params=querystring)
+        session = Session()
+        request = Request('GET', url, params=querystring).prepare()
+        logging.info(request.url)
+        response = session.send(request)
         if response.status_code == 204:
             abort(404, message="Invalid MSA. MSA {} Not found".format(msa))
         data = response.json()
