@@ -1,15 +1,11 @@
-FROM python:3-alpine3.11
-
-RUN apk add --update gcc && \
-  apk add musl-dev && \
-  # Required by uWSGI
-  apk add linux-headers
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
 
 WORKDIR /api
 
 COPY ./api/requirements.txt ./
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY ./api /api
 
-CMD [ "python", "app.py" ]
+CMD ["gunicorn", "main:app", "-b :5000", "-w 4", "-k uvicorn.workers.UvicornWorker"]

@@ -1,4 +1,4 @@
-from resources.income_dist_formatter import format_response
+from routes.income_dist_formatter import format_response
 
 
 class MSAIncomeSummary:

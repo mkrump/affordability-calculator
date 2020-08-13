@@ -5,5 +5,3 @@ services:
       context: ./
       dockerfile: ./deploy/api.dockerfile
     image: affordability/api
-    environment:
-      - FLASK_ENV=production
